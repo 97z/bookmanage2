@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.bookmanage.mapper.BookMapper">
+
+    <resultMap id="BaseResultMap" type="com.neu.bookmanage.entity.Book">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="author" column="author" jdbcType="VARCHAR"/>
+            <result property="publish" column="publish" jdbcType="VARCHAR"/>
+            <result property="publishdate" column="publishdate" jdbcType="DATE"/>
+            <result property="page" column="page" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,author,
+        publish,publishdate,page,
+        price,content
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from book
+        where  id = #{id,jdbcType=INTEGER} 
+    </select>
+    <select id="getAll" resultType="com.neu.bookmanage.entity.Book">
+        select
+        <include refid="Base_Column_List" />
+        from book
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from book
+        where  id = #{id,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.neu.bookmanage.entity.Book" useGeneratedKeys="true">
+        insert into book
+        ( id,name,author
+        ,publish,publishdate,page
+        ,price,content)
+        values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR}
+        ,#{publish,jdbcType=VARCHAR},#{publishdate,jdbcType=DATE},#{page,jdbcType=INTEGER}
+        ,#{price,jdbcType=DECIMAL},#{content,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.neu.bookmanage.entity.Book" useGeneratedKeys="true">
+        insert into book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="author != null">author,</if>
+                <if test="publish != null">publish,</if>
+                <if test="publishdate != null">publishdate,</if>
+                <if test="page != null">page,</if>
+                <if test="price != null">price,</if>
+                <if test="content != null">content,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="author != null">#{author,jdbcType=VARCHAR},</if>
+                <if test="publish != null">#{publish,jdbcType=VARCHAR},</if>
+                <if test="publishdate != null">#{publishdate,jdbcType=DATE},</if>
+                <if test="page != null">#{page,jdbcType=INTEGER},</if>
+                <if test="price != null">#{price,jdbcType=DECIMAL},</if>
+                <if test="content != null">#{content,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.neu.bookmanage.entity.Book">
+        update book
+        <set>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="author != null">
+                    author = #{author,jdbcType=VARCHAR},
+                </if>
+                <if test="publish != null">
+                    publish = #{publish,jdbcType=VARCHAR},
+                </if>
+                <if test="publishdate != null">
+                    publishdate = #{publishdate,jdbcType=DATE},
+                </if>
+                <if test="page != null">
+                    page = #{page,jdbcType=INTEGER},
+                </if>
+                <if test="price != null">
+                    price = #{price,jdbcType=DECIMAL},
+                </if>
+                <if test="content != null">
+                    content = #{content,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.neu.bookmanage.entity.Book">
+        update book
+        set 
+            name =  #{name,jdbcType=VARCHAR},
+            author =  #{author,jdbcType=VARCHAR},
+            publish =  #{publish,jdbcType=VARCHAR},
+            publishdate =  #{publishdate,jdbcType=DATE},
+            page =  #{page,jdbcType=INTEGER},
+            price =  #{price,jdbcType=DECIMAL},
+            content =  #{content,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>

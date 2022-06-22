@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+      select{
+        width:40px;
+        height: 200px;
+     }
+  </style>
+</head>
+<body>
+<div id="app">
+  <select multiple size="15" v-model="leftSel">
+    <option v-for="n in left">{{n}}</option>
+  </select>
+  <input type="button" value="=>" @click="toRight">
+  <input type="button" value="<=" @click="toLeft">
+  <select multiple size="15" v-model="rightSel">
+    <option v-for="n in right">{{n}}</option>
+  </select>
+</div>
+<script>
+
+  //vue的配置对象
+  let config = {
+    data(){
+      return {
+        left:['1','2','3','4','5','6','7','8','9'],
+        right:[],
+        leftSel:[],
+        rightSel:[]
+      }
+    },
+    methods:{
+      toRight(){
+        for(let i = 0;i < this.leftSel.length;i++){
+          this.right.push(this.leftSel[i])
+
+          let index = this.left.indexOf(this.leftSel[i]);
+          this.left.splice(index,1)
+        }
+        this.leftSel.length = 0
+
+      },
+      toLeft(){
+        for(let i = 0;i < this.rightSel.length;i++){
+          this.left.push(this.rightSel[i])
+
+          let index = this.right.indexOf(this.rightSel[i]);
+          this.right.splice(index,1)
+        }
+        this.rightSel.length = 0
+      }
+    }
+  }
+  //createApp方法返回一个应用程序对象
+  const app = Vue.createApp(config);
+  const p = app.mount("#app")
+</script>
+</body>
+</html>

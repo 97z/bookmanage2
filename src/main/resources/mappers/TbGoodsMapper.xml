@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.bookmanage.mapper.TbGoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.neu.bookmanage.entity.TbGoods">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="company" column="company" jdbcType="VARCHAR"/>
+            <result property="leaveDate" column="leave_date" jdbcType="DATE"/>
+            <result property="desc" column="desc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,price,
+        company,leave_date,desc
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_goods
+        where  id = #{id,jdbcType=INTEGER} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from tb_goods
+        where  id = #{id,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.neu.bookmanage.entity.TbGoods" useGeneratedKeys="true">
+        insert into tb_goods
+        ( id,name,price
+        ,company,leave_date,desc
+        )
+        values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{price,jdbcType=DECIMAL}
+        ,#{company,jdbcType=VARCHAR},#{leaveDate,jdbcType=DATE},#{desc,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.neu.bookmanage.entity.TbGoods" useGeneratedKeys="true">
+        insert into tb_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="price != null">price,</if>
+                <if test="company != null">company,</if>
+                <if test="leaveDate != null">leave_date,</if>
+                <if test="desc != null">desc,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="price != null">#{price,jdbcType=DECIMAL},</if>
+                <if test="company != null">#{company,jdbcType=VARCHAR},</if>
+                <if test="leaveDate != null">#{leaveDate,jdbcType=DATE},</if>
+                <if test="desc != null">#{desc,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.neu.bookmanage.entity.TbGoods">
+        update tb_goods
+        <set>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="price != null">
+                    price = #{price,jdbcType=DECIMAL},
+                </if>
+                <if test="company != null">
+                    company = #{company,jdbcType=VARCHAR},
+                </if>
+                <if test="leaveDate != null">
+                    leave_date = #{leaveDate,jdbcType=DATE},
+                </if>
+                <if test="desc != null">
+                    desc = #{desc,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.neu.bookmanage.entity.TbGoods">
+        update tb_goods
+        set 
+            name =  #{name,jdbcType=VARCHAR},
+            price =  #{price,jdbcType=DECIMAL},
+            company =  #{company,jdbcType=VARCHAR},
+            leave_date =  #{leaveDate,jdbcType=DATE},
+            desc =  #{desc,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>

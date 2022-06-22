@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+    <style>
+        tbody tr:nth-child(even){
+            background-color: bisque;
+        }
+    </style>
+</head>
+<body>
+<table border="1" width="900">
+    <thead>
+    <tr>
+        <th>书名</th>
+        <th>作者</th>
+        <th>出版社</th>
+        <th>出版日期</th>
+        <th>页数</th>
+        <th>价格</th>
+        <th>内容摘要</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--            <tr th:classappend="${status.count}%2 == 0?'bg':''" th:each="book,status : ${pageInfo.list}" th:object="${book}">-->
+    <tr th:each="book,status : ${pageInfo.list}" th:object="${book}">
+        <td th:text="*{name}"></td>
+        <td th:text="*{author}"></td>
+        <td th:text="*{publish}"></td>
+        <td th:text="*{#dates.format(publishdate,'yyyy-MM-dd')}"></td>
+        <td th:text="*{page}"></td>
+        <td th:text="*{price}"></td>
+        <td th:text="*{content}"></td>
+        <td>
+
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="8" align="center">
+            <input type="button" value="新增图书" onclick="addbook()">
+            <span th:text="|共${pageInfo.total}条记录|"></span>
+            每页<input type="text" size="1" th:value="${pageInfo.pageSize}" id="pageSize">条
+            <span th:text="|第${pageInfo.pageNum}页/共${pageInfo.pages}页|"></span>
+            <span th:unless="${pageInfo.isFirstPage}" >
+                        <a th:href="@{/book/getPaged(pageSize=${pageInfo.pageSize})}">第一页</a>
+                    </span>
+            <span th:if="${pageInfo.hasPreviousPage}">
+                        <a th:href="@{/book/getPaged(pageSize=${pageInfo.pageSize},pageNum=${pageInfo.prePage})}">上一页</a>
+                    </span>
+            <span th:if="${pageInfo.hasNextPage}">
+                        <a th:href="@{/book/getPaged(pageSize=${pageInfo.pageSize},pageNum=${pageInfo.nextPage})}">下一页</a>
+                    </span>
+            <span th:unless="${pageInfo.isLastPage}">
+                        <a th:href="@{/book/getPaged(pageSize=${pageInfo.pageSize},pageNum=${pageInfo.navigateLastPage})}">末页</a>
+                    </span>
+            转到第<input type="text" size="1" th:value="${pageInfo.pageNum}" id="pageNum">
+            <input type="button" value="go" onclick="goPage()">
+        </td>
+    </tr>
+    </tfoot>
+</table>
+</body>
+</html>
+<script>
+    function goPage(){
+        let pageNum = document.getElementById("pageNum").value;
+        location = '[[|@{/book/getPaged(pageSize=${pageInfo.pageSize})}|]]&pageNum='+pageNum;
+    }
+
+    /*function changeSize(pageSize){
+        let keyCode =  event.keyCode;
+        if(keyCode == 13){
+            location = '[[@{/book/getPaged}]]?pageSize='+pageSize;
+        }
+    }*/
+
+    document.getElementById("pageSize").addEventListener("keyup",function (e){
+        if(e.code == "Enter"){
+            location = '[[@{/book/getPaged}]]?pageSize='+this.value;
+        }
+    })
+
+    function del(id){
+        if(confirm("是否删除?")){
+            location = '[[@{/book/delete}]]?id='+id;
+        }
+    }
+
+    function addbook(){
+        location = '[[@{/book/addbook}]]';
+    }
+</script>
