@@ -36,6 +36,7 @@ public class DeptServiceImpl implements DeptService{
         System.out.println("hello,hot-fix");
         System.out.println("hello,master");
         System.out.println("hello,hot-fix333");
+        System.out.println("push3");
         return deptMapper.deleteByPrimaryKey(id);
     }
 
