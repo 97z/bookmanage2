@@ -34,6 +34,7 @@ public class DeptServiceImpl implements DeptService{
     public int deleteByPrimaryKey(Long id) {
         System.out.println("hello");
         System.out.println("hello,hot-fix");
+        System.out.println("hello,hot-fix333");
         return deptMapper.deleteByPrimaryKey(id);
     }
 
